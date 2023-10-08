@@ -94,7 +94,7 @@ public class DatabaseTest {
         SQLHelper.checkCreditStatus(StatusCard.DECLINED);
     }
 
-    @Test//неверно сохраняется сумма - БАГ
+    @Test
     @DisplayName("3.5.Проверка правильности сохранения стоимости тура в таблице payment_entity")
     void shouldBeSaveCorrectAmountOfTravelInDB() {
         paymentPage.paymentByMoney();
