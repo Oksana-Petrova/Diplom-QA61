@@ -4,6 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import java.time.Duration;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Configuration.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.$;
@@ -15,6 +16,7 @@ public class PaymentPage {
     private SelenideElement yearField = $(byText("Год")).parent().$(".input__control");
     private SelenideElement ownerField = $(byText("Владелец")).parent().$(".input__control");
     private SelenideElement cvcField = $(byText("CVC/CVV")).parent().$(".input__control");
+
     private SelenideElement continueButton = $$(".button__content").find(exactText("Продолжить"));
     private SelenideElement cardNumberFieldError = $(byText("Номер карты")).parent().$(".input__sub");
     private SelenideElement monthFieldError = $(byText("Месяц")).parent().$(".input__sub");
@@ -22,24 +24,23 @@ public class PaymentPage {
     private SelenideElement cardOwnerFieldError = $(byText("Владелец")).parent().$(".input__sub");
     private SelenideElement cvcFieldError = $(byText("CVC/CVV")).parent().$(".input__sub");
 
-
     public void paymentByMoney() {
-        open("http://localhost:8080", PaymentPage.class);
+        open(baseUrl, PaymentPage.class);
         $$(".button__content").find(exactText("Купить")).click();
         $$(".heading_theme_alfa-on-white").find(exactText("Оплата по карте")).shouldBe(visible);
     }
 
     public void paymentByCredit() {
-        open("http://localhost:8080", PaymentPage.class);
+        open(baseUrl, PaymentPage.class);
         $$(".button__content").find(exactText("Купить в кредит")).click();
         $$(".heading_theme_alfa-on-white").find(exactText("Кредит по данным карты")).shouldBe(visible);
     }
 
-    public void successPaymentMessage() {
+    public void checkSuccessPaymentMessage() {
         $$(".notification__title").find(exactText("Успешно")).shouldBe(visible, Duration.ofSeconds(15));
     }
 
-    public void errorPaymentMessage() {
+    public void checkErrorPaymentMessage() {
         $$(".notification__title").find(exactText("Ошибка")).shouldBe(visible, Duration.ofSeconds(15));
     }
 
@@ -101,5 +102,9 @@ public class PaymentPage {
 
     public void pushСontinueButton(){
        continueButton.click();
+    }
+
+    public SelenideElement getContinueButton() {
+        return continueButton.shouldBe(visible, Duration.ofSeconds(15));
     }
 }

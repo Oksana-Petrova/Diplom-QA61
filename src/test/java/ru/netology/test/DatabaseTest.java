@@ -2,14 +2,11 @@ package ru.netology.test;
 
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
 import ru.netology.data.SQLHelper;
 import ru.netology.data.StatusCard;
 import ru.netology.page.PaymentPage;
-
-import java.sql.SQLException;
 
 public class DatabaseTest {
 
@@ -26,7 +23,7 @@ public class DatabaseTest {
     }
 
     @AfterEach
-    void clearAll() throws SQLException {
+    void clearAll() {
         SQLHelper.clearAllData();
     }
 
@@ -45,11 +42,10 @@ public class DatabaseTest {
         paymentPage.setCardOwner(DataHelper.getValidCardOwnerName());
         paymentPage.setCvcNumber(DataHelper.getValidCvc());
         paymentPage.pushСontinueButton();
-        paymentPage.successPaymentMessage();
+        paymentPage.checkSuccessPaymentMessage();
         SQLHelper.checkPaymentStatus(StatusCard.APPROVED);
     }
 
-    @SneakyThrows
     @Test
     @DisplayName("3.2.Проверка наличия записи DECLINED в БД при оплате картой")
     void shouldBeDeclinedCardInDBWhenPaymentByMoney() {
@@ -60,11 +56,10 @@ public class DatabaseTest {
         paymentPage.setCardOwner(DataHelper.getValidCardOwnerName());
         paymentPage.setCvcNumber(DataHelper.getValidCvc());
         paymentPage.pushСontinueButton();
-        Thread.sleep(7000);
+        paymentPage.getContinueButton();
         SQLHelper.checkPaymentStatus(StatusCard.DECLINED);
     }
 
-    @SneakyThrows
     @Test
     @DisplayName("3.3.Проверка наличия записи APPROVED в БД при оплате кредитом")
     void shouldBeApprovedCardInDBWhenPaymentByCredit() {
@@ -75,11 +70,10 @@ public class DatabaseTest {
         paymentPage.setCardOwner(DataHelper.getValidCardOwnerName());
         paymentPage.setCvcNumber(DataHelper.getValidCvc());
         paymentPage.pushСontinueButton();
-        paymentPage.successPaymentMessage();
+        paymentPage.checkSuccessPaymentMessage();
         SQLHelper.checkCreditStatus(StatusCard.APPROVED);
     }
 
-    @SneakyThrows
     @Test
     @DisplayName("3.4.Проверка наличия записи DECLINED в БД при оплате кредитом")
     void shouldBeDeclinedCardInDBWhenPaymentByCredit() {
@@ -90,7 +84,7 @@ public class DatabaseTest {
         paymentPage.setCardOwner(DataHelper.getValidCardOwnerName());
         paymentPage.setCvcNumber(DataHelper.getValidCvc());
         paymentPage.pushСontinueButton();
-        Thread.sleep(10000);
+        paymentPage.getContinueButton();
         SQLHelper.checkCreditStatus(StatusCard.DECLINED);
     }
 
@@ -104,7 +98,7 @@ public class DatabaseTest {
         paymentPage.setCardOwner(DataHelper.getValidCardOwnerName());
         paymentPage.setCvcNumber(DataHelper.getValidCvc());
         paymentPage.pushСontinueButton();
-        paymentPage.successPaymentMessage();
-        SQLHelper.checkAmountOfTravelInDB();
+        paymentPage.checkSuccessPaymentMessage();
+        SQLHelper.checkAmountOfTravelInDB(4500000);
     }
 }

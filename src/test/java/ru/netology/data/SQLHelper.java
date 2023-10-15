@@ -23,7 +23,7 @@ public class SQLHelper {
     public static void checkPaymentStatus(StatusCard expectedStatus){
         var runner = new QueryRunner();
         var conn = DriverManager.getConnection(url, user, password);
-        var paymentDataSQL = "SELECT status FROM payment_entity;";
+        var paymentDataSQL = "SELECT status FROM payment_entity ORDER BY created DESC LIMIT 1;";
         var payment = runner.query(conn, paymentDataSQL, new ScalarHandler<String>());
         assertEquals(expectedStatus.getStatusName(), payment);
     }
@@ -31,17 +31,17 @@ public class SQLHelper {
     public static void checkCreditStatus(StatusCard expectedStatus){
         var runner = new QueryRunner();
         var conn = DriverManager.getConnection(url, user, password);
-        var creditDataSQL = "SELECT status FROM credit_request_entity;";
+        var creditDataSQL = "SELECT status FROM credit_request_entity ORDER BY created DESC LIMIT 1;";
         var credit = runner.query(conn, creditDataSQL, new ScalarHandler<String>());
         assertEquals(expectedStatus.getStatusName(), credit);
     }
 
     @SneakyThrows
-    public static void checkAmountOfTravelInDB(){
+    public static void checkAmountOfTravelInDB(int expectedAmount){
         var runner = new QueryRunner();
         var conn = DriverManager.getConnection(url, user, password);
-        var paymentDataSQL = "SELECT amount FROM payment_entity;";
+        var paymentDataSQL = "SELECT amount FROM payment_entity ORDER BY created DESC LIMIT 1;";
         var amount = runner.query(conn, paymentDataSQL, new ScalarHandler<Integer>());
-        assertEquals(45000, amount);
+        assertEquals(expectedAmount, amount);
     }
 }

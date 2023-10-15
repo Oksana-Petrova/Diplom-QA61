@@ -1,8 +1,6 @@
 package ru.netology.data;
 
 import com.github.javafaker.Faker;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -52,10 +50,6 @@ public class DataHelper {
     //данные по году
     public static String getValidYear(int addYearToCurrent) {
         return LocalDate.now().plusYears(addYearToCurrent).format(DateTimeFormatter.ofPattern("yy"));
-    }
-
-    public static String getYearLessCurrent(int minusYearFromCurrent) {
-        return LocalDate.now().minusYears(minusYearFromCurrent).format(DateTimeFormatter.ofPattern("yy"));
     }
 
     //данные по владельцу

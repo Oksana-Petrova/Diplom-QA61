@@ -7,10 +7,7 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
 import ru.netology.data.SQLHelper;
-
 import ru.netology.page.PaymentPage;
-
-import java.sql.SQLException;
 
 public class PaymentByMoneyTest {
 
@@ -27,7 +24,7 @@ public class PaymentByMoneyTest {
     }
 
     @AfterEach
-    void clearAll() throws SQLException {
+    void clearAll() {
         SQLHelper.clearAllData();
     }
 
@@ -46,7 +43,7 @@ public class PaymentByMoneyTest {
         paymentPage.setCardOwner(DataHelper.getValidCardOwnerName());
         paymentPage.setCvcNumber(DataHelper.getValidCvc());
         paymentPage.pushСontinueButton();
-        paymentPage.successPaymentMessage();
+        paymentPage.checkSuccessPaymentMessage();
     }
 
     @Test
@@ -59,7 +56,7 @@ public class PaymentByMoneyTest {
         paymentPage.setCardOwner(DataHelper.getValidCardOwnerName());
         paymentPage.setCvcNumber(DataHelper.getValidCvc());
         paymentPage.pushСontinueButton();
-        paymentPage.errorPaymentMessage();
+        paymentPage.checkErrorPaymentMessage();
     }
 
     @Test
@@ -72,7 +69,7 @@ public class PaymentByMoneyTest {
         paymentPage.setCardOwner(DataHelper.getValidCardOwnerName());
         paymentPage.setCvcNumber(DataHelper.getValidCvc());
         paymentPage.pushСontinueButton();
-        paymentPage.errorPaymentMessage();
+        paymentPage.checkErrorPaymentMessage();
     }
 
     @Test
@@ -111,7 +108,7 @@ public class PaymentByMoneyTest {
         paymentPage.setCardOwner(DataHelper.getValidCardOwnerName());
         paymentPage.setCvcNumber(DataHelper.getValidCvc());
         paymentPage.pushСontinueButton();
-        paymentPage.errorPaymentMessage();
+        paymentPage.checkErrorPaymentMessage();
     }
 
     @Test
@@ -133,7 +130,7 @@ public class PaymentByMoneyTest {
         paymentPage.paymentByMoney();
         paymentPage.setCardNumber(DataHelper.getApprovedCardNumber());
         paymentPage.setMonth(DataHelper.getValidMonth());
-        paymentPage.setYear(DataHelper.getYearLessCurrent(2));
+        paymentPage.setYear(DataHelper.getValidYear(-2));
         paymentPage.setCardOwner(DataHelper.getValidCardOwnerName());
         paymentPage.setCvcNumber(DataHelper.getValidCvc());
         paymentPage.pushСontinueButton();
@@ -150,7 +147,7 @@ public class PaymentByMoneyTest {
         paymentPage.setCardOwner(DataHelper.getValidCardOwnerName());
         paymentPage.setCvcNumber(DataHelper.getValidCvc());
         paymentPage.pushСontinueButton();
-        paymentPage.successPaymentMessage();
+        paymentPage.checkSuccessPaymentMessage();
     }
 
     @Test
